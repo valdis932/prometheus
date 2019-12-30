@@ -1,0 +1,5 @@
+- labels:
+    name: icmp_example
+    module: icmp
+  targets:      #add your hosts
+  - google.com

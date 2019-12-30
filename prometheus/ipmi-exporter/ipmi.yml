@@ -1,0 +1,52 @@
+# Configuration file for ipmi_exporter
+
+# This is an example config for scraping remote hosts via IPMI.
+# Information required to access remote IPMI interfaces can be supplied in the
+# 'modules' section. A scrape can request the usage of a given config by
+# setting the `module` URL parameter.
+
+modules:
+        default:
+                # These settings are used if no module is specified, the
+                # specified module doesn't exist, or of course if
+                # module=default is specified.
+                user: "ADMIN"
+                pass: "ADMIN"
+                # The below settings correspond to driver-type, privilege-level, and
+                # session-timeout respectively, see `man 5 freeipmi.conf` (and e.g.
+                # `man 8 ipmi-sensors` for a list of driver types).
+                driver: "LAN_2_0"
+                privilege: "user"
+                # The session timeout is in milliseconds. Note that a scrape can take up
+                # to (session-timeout * #-of-collectors) milliseconds, so set the scrape
+                # timeout in Prometheus accordingly.
+                timeout: 10000
+                # Available collectors are bmc, ipmi, and dcmi
+                # If not specified, all three are used
+                collectors:
+                - bmc
+                - ipmi
+                # Got any sensors you don't care about? Add them here.
+                exclude_sensor_ids:
+                - 2
+                - 29
+                - 32
+                - 50
+                - 52
+                - 55
+        dcmi:
+                # Use these settings when scraped with module=dcmi.
+                user: "ADMIN"
+                pass: "ADMIN"
+                privilege: "admin"
+                driver: "LAN_2_0"
+                collectors:
+                - dcmi
+        thatspecialhost:
+                #  Use these settings when scraped with module=thatspecialhost.
+                user: "ADMIN"
+                pass: "ADMIN"
+                privilege: "admin"
+                driver: "LAN"
+                collectors:
+                - ipmi

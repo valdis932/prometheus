@@ -1,0 +1,5 @@
+- labels:
+    name: http_example
+    module: https_200_module
+  targets:      #add your hosts
+  - https://www.google.com
