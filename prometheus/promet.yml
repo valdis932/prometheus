@@ -8,7 +8,7 @@ scrape_configs:
 
     - job_name: 'node-exporter'
       static_configs:
-        - targets: ['nodeexporter:9100']
+        - targets: ['localhost:9100']
 
     - job_name: 'blackbox'
       scrape_interval: 10s
@@ -24,7 +24,7 @@ scrape_configs:
         - source_labels: [__param_target]
           target_label: instance
         - target_label: __address__
-          replacement: "blackbox:9115"
+          replacement: "1.1.1.30:9115"
 
     - job_name: 'ipmi-exporter'
       scrape_interval: 1m
@@ -43,4 +43,4 @@ scrape_configs:
         - source_labels: [__param_target]
           target_label: instance
         - target_label: __address__
-          replacement: "ipmi-exporter:9290"
+          replacement: "1.1.1.50:9290"
