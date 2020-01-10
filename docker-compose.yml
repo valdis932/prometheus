@@ -1,10 +1,9 @@
 version: '3'
-networks:
-  testlab:
-    driver: bridge
+##########################################################
 volumes:
   prometheus_data: {}
   grafana_data: {}
+##########################################################
 services:
   prometheus:
     image: 'prom/prometheus:latest'
@@ -18,14 +17,12 @@ services:
       - '--config.file=/etc/prometheus/promet.yml'
       - '--web.enable-admin-api'
     networks:
-      - testlab
-    links:
-      - 'nodeexporter:nodeexporter'
-      - 'blackbox:blackbox'
-      - 'ipmi-exporter:localhost'
-  nodeexporter:
+      testlab:
+        ipv4_address: 1.1.1.10
+##########################################################
+  node-exporter:
     image: 'prom/node-exporter:latest'
-    container_name: nodeexporter
+    container_name: node-exporter
     user: root
     privileged: true
     volumes:
@@ -42,7 +39,9 @@ services:
     ports:
       - '9100:9100'
     networks:
-      - testlab
+      testlab:
+        ipv4_address: 1.1.1.20
+##########################################################
   blackbox:
     image: 'prom/blackbox-exporter:latest'
     container_name: blackbox
@@ -53,7 +52,9 @@ services:
     ports:
       - '9115:9115'
     networks:
-      - testlab
+      testlab:
+        ipv4_address: 1.1.1.30
+##########################################################
   grafana:
     image: 'grafana/grafana:latest'
     container_name: grafana
@@ -72,11 +73,11 @@ services:
     ports:
       - '3000:3000'
     networks:
-      - testlab
+      testlab:
+        ipv4_address: 1.1.1.40
     depends_on:
       - prometheus
-    links:
-      - 'prometheus:prometheus'
+##########################################################
   ipmi-exporter:
     image: 'valdis932/ipmi-exporter:latest'
     container_name: ipmi-exporter
@@ -86,7 +87,15 @@ services:
     ports:
       - '9290:9290'
     networks:
-      - testlab
+      testlab:
+        ipv4_address: 1.1.1.50
     volumes:
       - './prometheus/ipmi-exporter/ipmi.yml:/etc/ipmi-exporter/ipmi.yml'
     environment: []
+
+networks:
+  testlab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 1.1.1.0/24
