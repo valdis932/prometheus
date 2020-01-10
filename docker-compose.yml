@@ -19,10 +19,6 @@ services:
     networks:
       testlab:
         ipv4_address: 1.1.1.10
-#    links:
-#      - 'nodeexporter:nodeexporter'
-#      - 'blackbox:blackbox'
-#      - 'ipmi-exporter:localhost'
 ##########################################################
   node-exporter:
     image: 'prom/node-exporter:latest'
@@ -81,9 +77,7 @@ services:
         ipv4_address: 1.1.1.40
     depends_on:
       - prometheus
-#    links:
-#      - 'prometheus:prometheus'
-
+##########################################################
   ipmi-exporter:
     image: 'valdis932/ipmi-exporter:latest'
     container_name: ipmi-exporter
@@ -98,7 +92,7 @@ services:
     volumes:
       - './prometheus/ipmi-exporter/ipmi.yml:/etc/ipmi-exporter/ipmi.yml'
     environment: []
-##########################################################
+
 networks:
   testlab:
     driver: bridge
