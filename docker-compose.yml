@@ -93,9 +93,9 @@ services:
       - './prometheus/ipmi-exporter/ipmi.yml:/etc/ipmi-exporter/ipmi.yml'
     environment: []
 ##########################################################
-  snmp-exporter:
+  mikrotik-snmp-exporter:
     image: 'prom/snmp-exporter:latest'
-    container_name: snmp-exporter
+    container_name: mikrotik-snmp-exporter
     restart: unless-stopped
     expose:
       - 9116
@@ -107,7 +107,7 @@ services:
     volumes:
       - './prometheus/snmp-exporter/:/etc/snmp-exporter/'
     command:
-      - '--config.file=/etc/snmp-exporter/config-ios.yml'
+      - '--config.file=/etc/snmp-exporter/config_mikrotik.yml'
 ##########################################################
 networks:
   testlab:

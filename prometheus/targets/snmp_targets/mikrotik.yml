@@ -1,0 +1,5 @@
+- labels:
+    job: mikrotik-snmp-exporter
+    name: snmp-targets-mikrotik
+- targets:      #add your hosts
+  - 1.1.1.1

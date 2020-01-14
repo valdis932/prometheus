@@ -45,12 +45,12 @@ scrape_configs:
         - target_label: __address__
           replacement: "1.1.1.50:9290"
         
-    - job_name: 'snmp-exporter'
+    - job_name: 'mikrotik-snmp-exporter'
       scrape_interval: 10s
-      metrics_path: /snmp
+      metrics_path: /mikrotik-snmp
       file_sd_configs:
       - files:
-        - 'targets/snmp_targets/*.yml'
+        - 'targets/snmp_targets/mikrotik.yml'
       params:
         module: [if_mib]
       relabel_configs:
