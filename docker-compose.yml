@@ -92,7 +92,23 @@ services:
     volumes:
       - './prometheus/ipmi-exporter/ipmi.yml:/etc/ipmi-exporter/ipmi.yml'
     environment: []
-
+##########################################################
+  snmp-exporter:
+    image: 'prom/snmp-exporter:latest'
+    container_name: snmp-exporter
+    restart: unless-stopped
+    expose:
+      - 9116
+    ports:
+      - '9116:9116'
+    networks:
+      testlab:
+        ipv4_address: 1.1.1.60
+    volumes:
+      - './prometheus/snmp-exporter/:/etc/snmp-exporter/'
+    command:
+      - '--config.file=/etc/snmp-exporter/config-ios.yml'
+##########################################################
 networks:
   testlab:
     driver: bridge
