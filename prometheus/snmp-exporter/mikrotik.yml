@@ -1,0 +1,22 @@
+mikrotik:
+  version: 2
+  max_repetitions: 25
+  retries: 3
+  timeout: 10s
+  auth:
+    community: public
+#    version: 3
+#    auth:
+#      username: xxxxxxxxx
+#      password: yyyyyyyyyyyyyyyyy
+#      auth_protocol: qsdf
+#      priv_protocol: abc
+#      security_level: authPriv
+#      priv_password: zzzzzzzzzzzz
+  walk:
+  - 1.3.6.1.2.1.17.1.1
+  metrics:
+  - name: dot1dBaseBridgeAddress
+    oid: 1.3.6.1.2.1.17.1.1
+    type: PhysAddress48
+    help: The MAC address used by this bridge when it must be referred to in a unique fashion - 1.3.6.1.2.1.17.1.1

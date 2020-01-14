@@ -1,9 +1,7 @@
 version: '3'
-##########################################################
 volumes:
   prometheus_data: {}
   grafana_data: {}
-##########################################################
 services:
   prometheus:
     image: 'prom/prometheus:latest'
@@ -19,7 +17,6 @@ services:
     networks:
       testlab:
         ipv4_address: 1.1.1.10
-##########################################################
   node-exporter:
     image: 'prom/node-exporter:latest'
     container_name: node-exporter
@@ -41,7 +38,6 @@ services:
     networks:
       testlab:
         ipv4_address: 1.1.1.20
-##########################################################
   blackbox:
     image: 'prom/blackbox-exporter:latest'
     container_name: blackbox
@@ -54,7 +50,6 @@ services:
     networks:
       testlab:
         ipv4_address: 1.1.1.30
-##########################################################
   grafana:
     image: 'grafana/grafana:latest'
     container_name: grafana
@@ -77,7 +72,6 @@ services:
         ipv4_address: 1.1.1.40
     depends_on:
       - prometheus
-##########################################################
   ipmi-exporter:
     image: 'valdis932/ipmi-exporter:latest'
     container_name: ipmi-exporter
@@ -92,7 +86,21 @@ services:
     volumes:
       - './prometheus/ipmi-exporter/ipmi.yml:/etc/ipmi-exporter/ipmi.yml'
     environment: []
-
+  mikrotik-snmp-exporter:
+    image: 'prom/snmp-exporter:latest'
+    container_name: mikrotik-snmp-exporter
+    restart: unless-stopped
+    expose:
+      - 9116
+    ports:
+      - '9116:9116'
+    networks:
+      testlab:
+        ipv4_address: 1.1.1.60
+    volumes:
+      - './prometheus/snmp-exporter:/etc/snmp-exporter/'
+    command:
+      - '--config.file=/etc/snmp-exporter/mikrotik.yml'
 networks:
   testlab:
     driver: bridge

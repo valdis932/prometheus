@@ -1,5 +1,6 @@
 - labels:
-    job: ipmi_exporter
+    job: ipmi-exporter
+    name: ipmi-targets
 - targets:      #add your hosts
   - 127.0.0.1
   - 1.1.1.50
