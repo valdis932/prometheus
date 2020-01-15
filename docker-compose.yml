@@ -60,8 +60,8 @@ services:
     environment:
       - 'GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}'
       - 'GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}'
-      - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+      - 'GF_USERS_ALLOW_SIGN_UP=false'
+      - 'GF_INSTALL_PLUGINS=grafana-piechart-panel,alexanderzobnin-zabbix-app'
     restart: unless-stopped
     expose:
       - 3000
