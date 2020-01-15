@@ -16,7 +16,7 @@ services:
       - '--web.enable-admin-api'
     networks:
       testlab:
-        ipv4_address: 1.1.1.10
+        ipv4_address: 10.0.0.10
   node-exporter:
     image: 'prom/node-exporter:latest'
     container_name: node-exporter
@@ -37,7 +37,7 @@ services:
       - '9100:9100'
     networks:
       testlab:
-        ipv4_address: 1.1.1.20
+        ipv4_address: 10.0.0.20
   blackbox:
     image: 'prom/blackbox-exporter:latest'
     container_name: blackbox
@@ -49,7 +49,7 @@ services:
       - '9115:9115'
     networks:
       testlab:
-        ipv4_address: 1.1.1.30
+        ipv4_address: 10.0.0.30
   grafana:
     image: 'grafana/grafana:latest'
     container_name: grafana
@@ -69,7 +69,7 @@ services:
       - '3000:3000'
     networks:
       testlab:
-        ipv4_address: 1.1.1.40
+        ipv4_address: 10.0.0.40
     depends_on:
       - prometheus
   ipmi-exporter:
@@ -82,7 +82,7 @@ services:
       - '9290:9290'
     networks:
       testlab:
-        ipv4_address: 1.1.1.50
+        ipv4_address: 10.0.0.50
     volumes:
       - './prometheus/ipmi-exporter/ipmi.yml:/etc/ipmi-exporter/ipmi.yml'
     environment: []
@@ -96,7 +96,7 @@ services:
       - '9116:9116'
     networks:
       testlab:
-        ipv4_address: 1.1.1.60
+        ipv4_address: 10.0.0.60
     volumes:
       - './prometheus/snmp-exporter:/etc/snmp-exporter/'
     command:
@@ -106,4 +106,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 1.1.1.0/24
+        - subnet: 10.0.0.0/24
