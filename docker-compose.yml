@@ -1,5 +1,4 @@
 version: '3'
-
 services:
   prometheus:
     image: 'prom/prometheus:latest'
@@ -12,6 +11,7 @@ services:
     command:
       - '--config.file=/etc/prometheus/promet.yml'
       - '--web.enable-admin-api'
+      - '--log.level=debug'
     networks:
       testlab:
         ipv4_address: 10.0.0.10
@@ -58,7 +58,7 @@ services:
     environment:
       - 'GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}'
       - 'GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}'
-      - 'GF_USERS_ALLOW_SIGN_UP=false'
+      - GF_USERS_ALLOW_SIGN_UP=false
       - 'GF_INSTALL_PLUGINS=grafana-piechart-panel,alexanderzobnin-zabbix-app'
     restart: unless-stopped
     expose:
@@ -87,7 +87,7 @@ services:
   mikrotik-snmp-exporter:
     image: 'prom/snmp-exporter:latest'
     container_name: mikrotik-snmp-exporter
-    restart: unless-stopped
+    restart: always
     expose:
       - 9116
     ports:
@@ -98,7 +98,7 @@ services:
     volumes:
       - './prometheus/snmp-exporter:/etc/snmp-exporter/'
     command:
-      - '--config.file=/etc/snmp-exporter/mikrotik.yml'
+      - '--config.file=/etc/snmp-exporter/snmp.yml'
 networks:
   testlab:
     driver: bridge
