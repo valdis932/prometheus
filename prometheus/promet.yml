@@ -60,3 +60,7 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: 10.0.0.60:9116
+
+  - job_name: 'mikrotik-exporter'
+    static_configs:
+      - targets: ['10.0.0.70:9436']
