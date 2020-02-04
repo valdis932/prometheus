@@ -58,7 +58,7 @@ services:
     environment:
       - 'GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}'
       - 'GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}'
-      - 'GF_USERS_ALLOW_SIGN_UP=false'
+      - GF_USERS_ALLOW_SIGN_UP=false
       - 'GF_INSTALL_PLUGINS=grafana-piechart-panel,alexanderzobnin-zabbix-app'
     restart: unless-stopped
     expose:
@@ -99,6 +99,21 @@ services:
       - './prometheus/snmp-exporter:/etc/snmp-exporter/'
     command:
       - '--config.file=/etc/snmp-exporter/snmp.yml'
+  mikrotik-exporter:
+    image: 'nshttpd/mikrotik-exporter:1.0.11'
+    container_name: mikrotik-exporter
+    restart: always
+    expose:
+      - 9436
+    ports:
+      - '9436:9436'
+    networks:
+      testlab:
+        ipv4_address: 10.0.0.70
+    volumes:
+      - './prometheus/mikrotik-exporter/mikrotik.yml:/app/mikrotik-exporter/mikrotik.yml'
+    command:
+      - '--config.file=/app/mikrotik-exporter/mikrotik.yml'
 networks:
   testlab:
     driver: bridge
