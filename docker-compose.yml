@@ -84,7 +84,7 @@ services:
     volumes:
       - './prometheus/ipmi-exporter/ipmi.yml:/etc/ipmi-exporter/ipmi.yml'
     environment: []
-  mikrotik-snmp-exporter:
+  snmp-exporter:
     image: 'prom/snmp-exporter:latest'
     container_name: mikrotik-snmp-exporter
     restart: always
@@ -114,8 +114,6 @@ services:
       - './prometheus/mikrotik-exporter/mikrotik.yml:/app/mikrotik.yml'
     environment:
       - CONFIG_FILE=/app/mikrotik.yml
-#    command: 
-#      - './mikrotik-exporter -address 10.10.0.1 -device my_router -password changeme -user prometheus'
 networks:
   testlab:
     driver: bridge
