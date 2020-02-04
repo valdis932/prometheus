@@ -49,7 +49,7 @@ scrape_configs:
     scrape_timeout: 7s
     metrics_path: /snmp
     params:
-      module: [if_mib]
+      module: [mikrotik]
     file_sd_configs:
     - files:
       - 'targets/snmp_targets/mikrotik.yml'
@@ -60,3 +60,7 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: 10.0.0.60:9116
+
+  - job_name: 'mikrotik-exporter'
+    static_configs:
+      - targets: ['10.0.0.70:9436']

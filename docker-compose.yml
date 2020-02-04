@@ -99,6 +99,23 @@ services:
       - './prometheus/snmp-exporter:/etc/snmp-exporter/'
     command:
       - '--config.file=/etc/snmp-exporter/snmp.yml'
+  mikrotik-exporter:
+    image: 'nshttpd/mikrotik-exporter:1.0.12-DEVEL'
+    container_name: mikrotik-exporter
+    restart: always
+    expose:
+      - 9436
+    ports:
+      - '9436:9436'
+    networks:
+      testlab:
+        ipv4_address: 10.0.0.70
+    volumes:
+      - './prometheus/mikrotik-exporter/mikrotik.yml:/app/mikrotik.yml'
+    environment:
+      - CONFIG_FILE=/app/mikrotik.yml
+#    command: 
+#      - './mikrotik-exporter -address 10.10.0.1 -device my_router -password changeme -user prometheus'
 networks:
   testlab:
     driver: bridge

@@ -1,0 +1,17 @@
+devices:
+  - name: test1
+    address: 10.0.0.250
+    user: admin
+    password: qq
+    
+features:
+  bgp: true
+  dhcp: true
+  dhcpv6: true
+  dhcpl: true
+  routes: true
+  pools: true
+  optics: true
+  wlansta: true
+  wlanif: true
+  ipsec: true
