@@ -8,7 +8,7 @@ scrape_configs:
 
   - job_name: 'node-exporter'
     static_configs:
-      - targets: ['10.0.0.20:9100']
+      - targets: ['localhost:9100']
 
   - job_name: 'blackbox'
     scrape_interval: 10s
@@ -24,7 +24,7 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: 10.0.0.30:9115
+        replacement: localhost:9115
 
   - job_name: 'ipmi-exporter'
     scrape_interval: 1m
@@ -42,9 +42,9 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: 10.0.0.50:9290
+        replacement: localhost:9290
 
-  - job_name: 'mikrotik-snmp-exporter'
+  - job_name: 'snmp-exporter'
     scrape_interval: 15s
     scrape_timeout: 7s
     metrics_path: /snmp
@@ -59,8 +59,8 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: 10.0.0.60:9116
+        replacement: localhost:9116
 
   - job_name: 'mikrotik-exporter'
     static_configs:
-      - targets: ['10.0.0.70:9436']
+      - targets: ['localhost:9436']

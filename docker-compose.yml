@@ -3,8 +3,6 @@ services:
   prometheus:
     image: 'prom/prometheus:latest'
     container_name: prometheus
-    ports:
-      - '9090:9090'
     volumes:
       - './prometheus:/etc/prometheus/'
       - 'prometheus_data:/prometheus'
@@ -12,9 +10,13 @@ services:
       - '--config.file=/etc/prometheus/promet.yml'
       - '--web.enable-admin-api'
       - '--log.level=debug'
-    networks:
-      testlab:
-        ipv4_address: 10.0.0.10
+#    networks:
+#      testlab:
+#        ipv4_address: 10.0.0.10
+    network_mode: host
+    ports:
+      - '9090:9090'
+####################################################################################
   node-exporter:
     image: 'prom/node-exporter:latest'
     container_name: node-exporter
@@ -29,13 +31,15 @@ services:
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
     restart: unless-stopped
+#    networks:
+#      testlab:
+#        ipv4_address: 10.0.0.20
+    network_mode: host
     expose:
       - 9100
     ports:
       - '9100:9100'
-    networks:
-      testlab:
-        ipv4_address: 10.0.0.20
+####################################################################################
   blackbox:
     image: 'prom/blackbox-exporter:latest'
     container_name: blackbox
@@ -43,11 +47,13 @@ services:
       - './prometheus/blackbox:/etc/blackbox/'
     command:
       - '--config.file=/etc/blackbox/blackbox.yml'
+#    networks:
+#      testlab:
+#        ipv4_address: 10.0.0.30
+    network_mode: host
     ports:
       - '9115:9115'
-    networks:
-      testlab:
-        ipv4_address: 10.0.0.30
+####################################################################################
   grafana:
     image: 'grafana/grafana:latest'
     container_name: grafana
@@ -58,70 +64,76 @@ services:
     environment:
       - 'GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}'
       - 'GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}'
-      - GF_USERS_ALLOW_SIGN_UP=false
+      - 'GF_USERS_ALLOW_SIGN_UP=false'
       - 'GF_INSTALL_PLUGINS=grafana-piechart-panel,alexanderzobnin-zabbix-app'
     restart: unless-stopped
+#    networks:
+#      testlab:
+#        ipv4_address: 10.0.0.40
+    network_mode: host
     expose:
       - 3000
     ports:
       - '3000:3000'
-    networks:
-      testlab:
-        ipv4_address: 10.0.0.40
     depends_on:
       - prometheus
+####################################################################################
   ipmi-exporter:
     image: 'valdis932/ipmi-exporter:latest'
     container_name: ipmi-exporter
+    volumes:
+      - './prometheus/ipmi-exporter/ipmi.yml:/etc/ipmi-exporter/ipmi.yml'
+    environment: []
     restart: unless-stopped
+    network_mode: host
     expose:
       - 9290
     ports:
       - '9290:9290'
-    networks:
-      testlab:
-        ipv4_address: 10.0.0.50
-    volumes:
-      - './prometheus/ipmi-exporter/ipmi.yml:/etc/ipmi-exporter/ipmi.yml'
-    environment: []
-  mikrotik-snmp-exporter:
+#    networks:
+#      testlab:
+#        ipv4_address: 10.0.0.50
+####################################################################################
+  snmp-exporter:
     image: 'prom/snmp-exporter:latest'
-    container_name: mikrotik-snmp-exporter
-    restart: always
-    expose:
-      - 9116
-    ports:
-      - '9116:9116'
-    networks:
-      testlab:
-        ipv4_address: 10.0.0.60
+    container_name: snmp-exporter
     volumes:
       - './prometheus/snmp-exporter:/etc/snmp-exporter/'
     command:
       - '--config.file=/etc/snmp-exporter/snmp.yml'
+    restart: always
+#    networks:
+#      testlab:
+#        ipv4_address: 10.0.0.60
+    network_mode: host
+    expose:
+      - 9116
+    ports:
+      - '9116:9116'
+####################################################################################
   mikrotik-exporter:
     image: 'nshttpd/mikrotik-exporter:1.0.12-DEVEL'
     container_name: mikrotik-exporter
     restart: always
-    expose:
-      - 9436
-    ports:
-      - '9436:9436'
-    networks:
-      testlab:
-        ipv4_address: 10.0.0.70
     volumes:
       - './prometheus/mikrotik-exporter/mikrotik.yml:/app/mikrotik.yml'
     environment:
       - CONFIG_FILE=/app/mikrotik.yml
-#    command: 
-#      - './mikrotik-exporter -address 10.10.0.1 -device my_router -password changeme -user prometheus'
-networks:
-  testlab:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 10.0.0.0/24
+#    networks:
+#      testlab:
+#        ipv4_address: 10.0.0.70
+    network_mode: host
+    expose:
+      - 9436
+    ports:
+      - '9436:9436'
+####################################################################################
+#networks:
+#  testlab:
+#    driver: bridge
+#    ipam:
+#      config:
+#        - subnet: 10.0.0.0/24
 volumes:
   prometheus_data: {}
   grafana_data: {}
