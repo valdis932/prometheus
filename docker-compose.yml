@@ -102,14 +102,14 @@ services:
     command:
       - '--config.file=/etc/snmp-exporter/snmp.yml'
     restart: always
-    expose:
-      - 9116
-    ports:
-      - '9116:9116'
 #    networks:
 #      testlab:
 #        ipv4_address: 10.0.0.60
     network_mode: host
+    expose:
+      - 9116
+    ports:
+      - '9116:9116'
 ####################################################################################
   mikrotik-exporter:
     image: 'nshttpd/mikrotik-exporter:1.0.12-DEVEL'
