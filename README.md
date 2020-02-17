@@ -1,3 +1,1 @@
-Prometheus + BlackBox + Node Exporter + IPMI Exporter + SNMP Exporter + Grafana
-
-SNMP include module for mikrotik
+Prometheus + BlackBox + Node Exporter + Grafana + IPMI Exporter + SNMP Exporter + MIKROTIK Exporter
