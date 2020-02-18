@@ -101,7 +101,7 @@ services:
       - './prometheus/snmp-exporter:/etc/snmp-exporter/'
     command:
       - '--config.file=/etc/snmp-exporter/snmp.yml'
-    restart: always
+    restart: unless-stopped
 #    networks:
 #      testlab:
 #        ipv4_address: 10.0.0.60
@@ -114,7 +114,7 @@ services:
   mikrotik-exporter:
     image: 'nshttpd/mikrotik-exporter:1.0.12-DEVEL'
     container_name: mikrotik-exporter
-    restart: always
+    restart: unless-stopped
     volumes:
       - './prometheus/mikrotik-exporter/mikrotik.yml:/app/mikrotik.yml'
     environment:
