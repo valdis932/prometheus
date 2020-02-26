@@ -1,8 +1,8 @@
 devices:
   - name: test1
-    address: 10.0.0.250
+    address: 192.168.122.254
     user: admin
-    password: qq
+    password: 
     
 features:
   bgp: true
