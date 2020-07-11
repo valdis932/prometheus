@@ -1,0 +1,4 @@
+- labels:
+    name: Synology
+  targets:      #add your hosts
+  - 192.168.100.102
