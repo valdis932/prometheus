@@ -1,0 +1,8 @@
+- labels:
+    name: Cisco-SW
+  targets:      #add your hosts
+  - 192.168.100.100
+- labels:
+    name: Cisco-Video
+  targets:      #add your hosts
+  - 192.168.100.50
