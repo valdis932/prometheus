@@ -10,10 +10,13 @@ services:
       - '--config.file=/etc/prometheus/promet.yml'
       - '--web.enable-admin-api'
       - '--log.level=debug'
+    restart: always
 #    networks:
 #      testlab:
 #        ipv4_address: 10.0.0.10
     network_mode: host
+    expose:
+      - 9100
     ports:
       - '9090:9090'
 ####################################################################################
@@ -30,7 +33,7 @@ services:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
-    restart: unless-stopped
+    restart: always
 #    networks:
 #      testlab:
 #        ipv4_address: 10.0.0.20
@@ -47,6 +50,7 @@ services:
       - './prometheus/blackbox:/etc/blackbox/'
     command:
       - '--config.file=/etc/blackbox/blackbox.yml'
+    restart: always
 #    networks:
 #      testlab:
 #        ipv4_address: 10.0.0.30
@@ -54,19 +58,19 @@ services:
     ports:
       - '9115:9115'
 ####################################################################################
-  grafana:
+  grafana-prom:
     image: 'grafana/grafana:latest'
-    container_name: grafana
+    container_name: grafana-prom
     volumes:
       - 'grafana_data:/var/lib/grafana'
-      - './grafana/dashboards/:/etc/grafana/dashboards'
+      #- './grafana/dashboards/:/etc/grafana/dashboards'
       - './grafana/provisioning/:/etc/grafana/provisioning/'
     environment:
       - 'GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}'
       - 'GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}'
       - 'GF_USERS_ALLOW_SIGN_UP=false'
       - 'GF_INSTALL_PLUGINS=grafana-piechart-panel,alexanderzobnin-zabbix-app'
-    restart: unless-stopped
+    restart: always
 #    networks:
 #      testlab:
 #        ipv4_address: 10.0.0.40
@@ -84,7 +88,7 @@ services:
     volumes:
       - './prometheus/ipmi-exporter/ipmi.yml:/etc/ipmi-exporter/ipmi.yml'
     environment: []
-    restart: unless-stopped
+    restart: always
     network_mode: host
     expose:
       - 9290
@@ -100,7 +104,7 @@ services:
     volumes:
       - './prometheus/snmp-exporter:/etc/snmp-exporter/'
     command:
-      - '--config.file=/etc/snmp-exporter/snmp.yml'
+      - '--config.file=/etc/snmp-exporter/snmp_extended.yml'
     restart: always
 #    networks:
 #      testlab:
